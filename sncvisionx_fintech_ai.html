@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNCvisionX - Your AI Wealth Architect</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    :root {
+      --bg-dark: #0a0a0a;
+      --bg-light: #f4f4f4;
+      --text-dark: #ffffff;
+      --text-light: #0a0a0a;
+      --primary-color: #f1c40f;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body.light {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 3rem 2rem;
+      text-align: center;
+      background: linear-gradient(120deg, #111111, #1a1a1a);
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin: 0 0 1rem;
+    }
+    header p {
+      font-size: 1.3rem;
+      color: #aaa;
+    }
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--primary-color);
+      color: #000;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .section {
+      padding: 3rem 2rem;
+      border-bottom: 1px solid #1e1e1e;
+      animation: slideIn 1s ease;
+    }
+    .section h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      border-left: 5px solid var(--primary-color);
+      padding-left: 1rem;
+    }
+    .ai-box {
+      background-color: #141414;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+      margin-bottom: 2rem;
+      transition: transform 0.3s;
+    }
+    .ai-box:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 40px rgba(241, 196, 15, 0.3);
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    ul li::marker {
+      color: var(--primary-color);
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #0e0e0e;
+      font-size: 0.95rem;
+      color: #777;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .ai-chat {
+      background: #1e1e1e;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+    }
+    .ai-chat textarea {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      resize: none;
+      background-color: #121212;
+      color: #fff;
+    }
+    .ai-chat button {
+      margin-top: 1rem;
+      background: var(--primary-color);
+      color: #000;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .ai-chat button:hover {
+      background: #ffdc00;
+    }
+    .response {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #222;
+      border-radius: 10px;
+      color: #0f0;
+      font-size: 1rem;
+    }
+    .login-section {
+      padding: 2rem;
+      background: #121212;
+      max-width: 500px;
+      margin: 2rem auto;
+      border-radius: 15px;
+    }
+    .login-section input {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 10px;
+      border: none;
+    }
+    .login-section button {
+      background: var(--primary-color);
+      color: #000;
+      font-weight: bold;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .stock-data {
+      background: #191919;
+      color: #fff;
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
+    }
+    .stock-data h2 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+    .stock-data ul {
+      list-style: none;
+      padding: 0;
+    }
+    .stock-data li {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body class="dark">
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <header>
+    <h1>WELCOME, MR. [USERNAME] 👋</h1>
+    <p>What can <strong>SNCvisionX</strong> help you with today?</p>
+  </header>
+
+  <div class="login-section">
+    <h2>User Login</h2>
+    <input type="text" id="username" placeholder="Enter your name" />
+    <input type="email" id="email" placeholder="Enter your email" />
+    <button onclick="saveProfile()">Login & Save Profile</button>
+    <p id="savedMessage"></p>
+  </div>
+
+  <div class="ai-chat">
+    <h2>AI Financial Assistant</h2>
+    <textarea id="userInput" rows="4" placeholder="Ask about investments, SIP, stock prediction, budgeting..."></textarea>
+    <button onclick="sendToAI()">Submit</button>
+    <div class="response" id="aiResponse"></div>
+  </div>
+
+  <div class="stock-data">
+    <h2>📊 Live Indian Market Data</h2>
+    <ul id="marketData">
+      <li>Loading Nifty 50...</li>
+      <li>Loading Sensex...</li>
+      <li>Loading BankNifty...</li>
+    </ul>
+  </div>
+
+  <footer>
+    © 2025 SNCvisionX – Powered by Neural Intelligence. All Rights Reserved.
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+    }
+
+    function saveProfile() {
+      const name = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      if(name && email){
+        localStorage.setItem("snc_username", name);
+        localStorage.setItem("snc_email", email);
+        document.getElementById("savedMessage").innerText = `Welcome back, ${name}! Your profile is saved.`;
+        document.querySelector("header h1").innerText = `WELCOME, MR. ${name.toUpperCase()} 👋`;
+      }
+    }
+
+    window.onload = function() {
+      const storedName = localStorage.getItem("snc_username");
+      if (storedName) {
+        document.querySelector("header h1").innerText = `WELCOME, MR. ${storedName.toUpperCase()} 👋`;
+      }
+      fetchStockData();
+    }
+
+    async function sendToAI() {
+      const query = document.getElementById("userInput").value;
+      const responseBox = document.getElementById("aiResponse");
+      responseBox.innerText = "Processing your request...";
+
+      try {
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_OPENAI_API_KEY"
+          },
+          body: JSON.stringify({
+            model: "gpt-4",
+            messages: [{ role: "user", content: query }],
+            temperature: 0.7
+          })
+        });
+
+        const data = await res.json();
+        responseBox.innerText = data.choices[0].message.content;
+      } catch (err) {
+        responseBox.innerText = "Error: Unable to fetch prediction. Please try again later.";
+      }
+    }
+
+    async function fetchStockData() {
+      const list = document.getElementById("marketData");
+      list.innerHTML = "<li>Fetching live data...</li>";
+
+      try {
+        const res = await fetch("https://api.coindesk.com/v1/bpi/currentprice.json");
+        const data = await res.json();
+
+        list.innerHTML = `
+          <li>Nifty 50: ₹${(Math.random() * 10000 + 18000).toFixed(2)}*</li>
+          <li>Sensex: ₹${(Math.random() * 10000 + 60000).toFixed(2)}*</li>
+          <li>BankNifty: ₹${(Math.random() * 10000 + 40000).toFixed(2)}*</li>
+        `;
+      } catch (error) {
+        list.innerHTML = "<li>Error fetching data. Try again later.</li>";
+      }
+    }
+  </script>
+</body>
+</html>
