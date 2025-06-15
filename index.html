@@ -294,6 +294,69 @@
       }
     }
   </script>
+  // BACKEND CODE FOR SNCvisionX AI (Node.js + Express + OpenAI)
+
+// 1. Create a file: index.js
+// 2. Install dependencies: npm install express cors body-parser openai dotenv
+// 3. Place your OpenAI API key in a .env file
+// 4. Deploy this to Render or Replit
+
+// index.js
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+require('dotenv').config();
+
+const { Configuration, OpenAIApi } = require('openai');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(bodyParser.json());
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+app.post('/ask', async (req, res) => {
+  const { message } = req.body;
+  try {
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: message }],
+      temperature: 0.7,
+    });
+    res.json({ reply: completion.data.choices[0].message.content });
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+    res.status(500).json({ error: 'Something went wrong. Try again later.' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`SNCvisionX AI backend running on port ${port}`);
+});
+
+// .env file (DO NOT COMMIT THIS FILE)
+// Place in root folder
+// OPENAI_API_KEY=sk-sk-
+
+// ------------------------------
+// FRONTEND CHANGES (HTML FILE)
+// ------------------------------
+// Replace in sendToAI() the fetch URL:
+
+// OLD (unsafe):
+// fetch("https://api.openai.com/v1/chat/completions", {...})
+
+// NEW (safe):
+// fetch("https://your-backend-url.onrender.com/ask", {...})
+
+// Where "your-backend-url" is the deployed Render or Replit backend URL.
+
+// Now your SNCvisionX is safe and professional 🚀
+
   <script>
   function toggleTheme() {
     const body = document.body;
