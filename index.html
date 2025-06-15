@@ -294,5 +294,104 @@
       }
     }
   </script>
+  <script>
+  function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle("dark");
+    body.classList.toggle("light");
+  }
+
+  function saveProfile() {
+    const name = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    if (name && email) {
+      localStorage.setItem("snc_username", name);
+      localStorage.setItem("snc_email", email);
+      document.getElementById("savedMessage").innerText = `Welcome back, ${name}! Your profile is saved.`;
+      updateWelcomeMessage(name);
+      showLogoutButton();
+    }
+  }
+
+  function logoutProfile() {
+    localStorage.removeItem("snc_username");
+    localStorage.removeItem("snc_email");
+    location.reload();
+  }
+
+  function updateWelcomeMessage(name) {
+    document.querySelector("header h1").innerText = `WELCOME, MR. ${name.toUpperCase()} 👋`;
+  }
+
+  function showLogoutButton() {
+    const loginSection = document.querySelector(".login-section");
+    const logoutBtn = document.createElement("button");
+    logoutBtn.innerText = "Logout";
+    logoutBtn.style.marginTop = "1rem";
+    logoutBtn.style.background = "#ff5555";
+    logoutBtn.style.color = "#fff";
+    logoutBtn.style.fontWeight = "bold";
+    logoutBtn.style.padding = "0.8rem 1.5rem";
+    logoutBtn.style.border = "none";
+    logoutBtn.style.borderRadius = "10px";
+    logoutBtn.style.cursor = "pointer";
+    logoutBtn.onclick = logoutProfile;
+    loginSection.appendChild(logoutBtn);
+  }
+
+  window.onload = function () {
+    const storedName = localStorage.getItem("snc_username");
+    if (storedName) {
+      updateWelcomeMessage(storedName);
+      showLogoutButton();
+    }
+    fetchStockData();
+  };
+
+  async function sendToAI() {
+    const query = document.getElementById("userInput").value;
+    const responseBox = document.getElementById("aiResponse");
+    responseBox.innerText = "Processing your request...";
+
+    try {
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer YOUR_OPENAI_API_KEY"
+        },
+        body: JSON.stringify({
+          model: "gpt-4",
+          messages: [{ role: "user", content: query }],
+          temperature: 0.7
+        })
+      });
+
+      const data = await res.json();
+      responseBox.innerText = data.choices[0].message.content;
+    } catch (err) {
+      responseBox.innerText = "Error: Unable to fetch prediction. Please try again later.";
+    }
+  }
+
+  async function fetchStockData() {
+    const list = document.getElementById("marketData");
+    list.innerHTML = "<li>Fetching live data...</li>";
+
+    try {
+      const res = await fetch("https://api.coindesk.com/v1/bpi/currentprice.json");
+      const data = await res.json();
+
+      list.innerHTML = `
+        <li>Nifty 50: ₹${(Math.random() * 10000 + 18000).toFixed(2)}*</li>
+        <li>Sensex: ₹${(Math.random() * 10000 + 60000).toFixed(2)}*</li>
+        <li>BankNifty: ₹${(Math.random() * 10000 + 40000).toFixed(2)}*</li>
+      `;
+    } catch (error) {
+      list.innerHTML = "<li>Error fetching data. Try again later.</li>";
+    }
+  }
+</script>
+
 </body>
 </html>
